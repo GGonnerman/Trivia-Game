@@ -63,9 +63,10 @@ DROP TABLE IF EXISTS `Season` ;
 SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `Season` (
   `idSeason` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `season_number` SMALLINT UNSIGNED NULL,
+  `season_number` SMALLINT UNSIGNED NOT NULL,
   PRIMARY KEY (`idSeason`),
-  UNIQUE INDEX `idSeason_UNIQUE` (`idSeason` ASC) VISIBLE)
+  UNIQUE INDEX `idSeason_UNIQUE` (`idSeason` ASC) VISIBLE,
+  UNIQUE INDEX `season_number_UNIQUE` (`season_number` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -77,12 +78,14 @@ DROP TABLE IF EXISTS `Episode` ;
 
 SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `Episode` (
-  `idEpisode` INT UNSIGNED NOT NULL,
+  `idEpisode` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `air_date` DATE NOT NULL,
   `Season_idSeason` INT UNSIGNED NOT NULL,
   `episode_number` SMALLINT UNSIGNED NULL,
   PRIMARY KEY (`idEpisode`),
   INDEX `fk_Episode_Season1_idx` (`Season_idSeason` ASC) VISIBLE,
+  UNIQUE INDEX `air_date_UNIQUE` (`air_date` ASC) VISIBLE,
+  UNIQUE INDEX `idEpisode_UNIQUE` (`idEpisode` ASC) VISIBLE,
   CONSTRAINT `fk_Episode_Season1`
     FOREIGN KEY (`Season_idSeason`)
     REFERENCES `Season` (`idSeason`)
@@ -126,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `Question` (
   `clue_value` SMALLINT UNSIGNED NOT NULL,
   `comment` VARCHAR(250) NULL,
   `question` VARCHAR(250) NOT NULL,
-  `answer` VARCHAR(250) NOT NULL,
+  `answer` VARCHAR(500) NOT NULL,
   `Category_idCategory` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idQuestion`),
   UNIQUE INDEX `idQuestion_UNIQUE` (`idQuestion` ASC) VISIBLE,
